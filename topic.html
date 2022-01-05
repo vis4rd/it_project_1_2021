@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="styles/dark-gray.css">
+	<title>Kluczka - Internet Technology Project 1</title>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+	<div class="parag ccenter">
+		<h1>IT Project 1 - Projectile Motions
+	</div>
+	<nav class="ccenter">
+		<div class="navbar-entry ccenter">
+			<a href="index.html">About</a>
+		</div>
+		<div class="navbar-entry ccenter" id="nav-active">
+			Topic
+		</div>
+		<div class="navbar-entry ccenter">
+			<a href="simul.html">Simul</a>
+		</div>
+	</nav>
+
+	<div class="parag">
+		<h2 class="ccenter">Theory</h2>
+		<h3>Projectile motion in 2D</h3>
+		Projectile motion is the motion of an object thrown into the air, which subjects only to the acceleration of gravity. This object is called a projectile, and its path is called its trajectory.
+		<br><br>
+		<h3>Simplifications</h3>
+		This simple project covers only kinematics of projectiles in two dimensional space. The air resistance and friction are considered negligible here.
+		<br><br>
+		<h3>Motion along axes</h3>
+		The important fact is that motions along perpendicular axes are independent, which means they can be calculated separatly. The horizontal axis is to be called X-axis and vertical axis the Y-axis.
+		<br><br>
+		Let there be an object called \(A\), which is shifted by the vector \(s\) from the origin of the reference system. The vector is two dimensional and its parts along the X-axis and Y-axis are respectively called \(x\) and \(y\). \(A\) is subject to gravitational acceleration, which affects it only according to Y-axis. Thus we can state, that \(a_{y} = -9.81 {m \over s^2}\) and \(a_{x} = 0{m \over s^2}\).
+		<br><br>
+		<h3>Horizontal motion</h3>
+		Assuming that \(A\) is in \((0, 0)\) at the start, was not in motion and considering simplifications mentioned above, the velocity \(v_{x}\) set to it remains constant during the flight of the projectile (\(v_{x} = const\)). This also implies that there's no acceleration along X-axis. It means that horizontal position of \(A\) can be described as:
+		$$x = x_{0} + v_{x} \cdot t$$
+		
+		<h3>Vertical motion</h3>
+		This time, assuming that \(a_{y} = -g = -9.81 {m \over s^2}\) and \(A = (0,0)\) was not in motion at the start, the vertical position at any given time \(t\) is stated by formula:
+		$$y = {1 \over 2}v_{y}t$$
+		, where \(v_{y}\) is a vertical velocity calculated by:
+		$$v_{y} = -gt$$
+		After simplification, the end result is:
+		$$y = -{1 \over 2}gt^2$$
+
+		<h3>Starting position and non-zero velocity</h3>
+		Above formulas don't consider the object \(A\) to be in other position than \((0, 0)\) and have vector of velocity \(\overrightarrow{v} \ne (0, 0)\). The complete formulas are as follows:
+		$$x = x_{0} + v_{x} \cdot t$$
+		$$y = y_{0} + v_{0y} \cdot t - \frac{1}{2}gt^2$$
+		$$v_{x} = v_{0x} = const$$
+		$$v_{y} = v_{0y} - gt$$
+
+		<h3>Direction of displacement and velocity</h3>
+		Using Pythagoras formula the length of the vector \(s\) can be calculated with \(|s| = \sqrt{x^2 + y^2}\). The angle \(\Theta\) is between the \(s\) and X-axis. This means, that knowing the shift \(s\) the formula for displacement of \(A\) is:
+		$$\Theta = tan^{-1}({y \over x})$$
+
+		Similarly, the direction of velocity can be described as:
+		$$\Theta_{v} = tan^{-1}(\frac{v_{y}}{v_{x}})$$
+
+		
+	</div>
+
+</body>
+</html>
