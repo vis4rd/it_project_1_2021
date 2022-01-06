@@ -30,13 +30,13 @@ function start()
 	var precision = parseInt(precision_s.value);
 	var gravity = parseInt(gravity_s.value) / 100.0;
 
-	angle_l.innerHTML = angle + "°";
-	velocity_l.innerHTML = velocity + " m/s";
-	ground_level_l.innerHTML = ground_level + " m";
-	pole_height_l.innerHTML = pole_height + " m";
-	radius_l.innerHTML = radius + " m";
+	angle_l.innerHTML = angle;
+	velocity_l.innerHTML = velocity;
+	ground_level_l.innerHTML = ground_level;
+	pole_height_l.innerHTML = pole_height;
+	radius_l.innerHTML = radius;
 	precision_l.innerHTML = precision;
-	gravity_l.innerHTML = gravity + " m/s^2";
+	gravity_l.innerHTML = gravity;
 
 	draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
 }
@@ -83,7 +83,6 @@ function resetGravity()
 	start();
 }
 
-
 async function draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity)
 {
 	var canvas = document.getElementById("canv");
@@ -93,19 +92,17 @@ async function draw(angle, velocity, ground_level, pole_width, pole_height, pole
 	context.clearRect(0, 0, cw, ch)
 
 	context.save();
-	context.fillStyle = "#E0E0E0";
+	context.fillStyle = "#707070";
 	context.strokeStyle = "#A5E6E6";
-	// context.strokeStyle = "#FF0000";
 	context.lineWidth = 3;
+
 	drawGround(context, cw, ch, ground_level);
 	drawPole(context, cw, ch, pole_width, pole_height, pole_x, ch-ground_level-pole_height);
-
 	drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground_level, precision, pole_x + pole_width/2.0);
 
-	// context.fillStyle = "#A5E6E6";
-	context.fillStyle = "#FF0000";
-	drawObject(context, cw, ch, radius, pole_x + pole_width/2.0, ch-ground_level-pole_height);
 	context.fillStyle = "#E0E0E0";
+	drawObject(context, cw, ch, radius, pole_x + pole_width/2.0, ch-ground_level-pole_height);
+	context.fillStyle = "#707070";
 }
 
 function drawGround(context, cw, ch, height)
@@ -196,38 +193,56 @@ function drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground
 			}
 			else // velocity fighting against the gravity and reaching the ground
 			{
+				var x = x0;
+				var y = y0;
+				var px, py;
 				for(var iter = 1; iter <= precision; iter++)
 				{
+					px = x;
+					py = y;
 					var time = iter * total_time / precision;
-					var x = x0 + time * vx;
-					var y = y0 - time * vy + 0.5 * gravity * time * time;
-					if(y >= ground_y) // hitting the ground, starting the new line with adjusted params
-					{						
-						// ground_y-y = elevation of the last point before touchdown
-						var hit_x = x + (ground_y-y) * ctan(-angle_rad);
-						var hit_y = ground_y;
-						var hit_vy = -vy + gravity * time;
-						var hit_rad = Math.atan(hit_vy/vx);
-						var hit_angle = hit_rad * 180.0 / Math.PI;
-						while(hit_angle < 0)
-						{
-							hit_angle += 180;
-						}
-						var bounce_angle = hit_angle;
-						var hit_velocity = Math.sqrt(vx*vx + hit_vy*hit_vy);
-
-						context.lineTo(hit_x, hit_y);
-						context.stroke();
-
-						// pole height here is 0, because we imitate that the ball starts from the ground level
-						drawPath(context, cw, ch, bounce_angle, hit_velocity, gravity, 0, ground_height, precision, hit_x);
-						return;
-					}
-					else
+					x = x0 + time * vx;
+					y = y0 - time * vy + 0.5 * gravity * time * time;
+					if(y > ground_y) // deos the next line end underground
 					{
-						context.lineTo(x, y);
+						// so basically we need to get the X where Y = ground_y
+						// y = a * x + b
+						// a = (y - py) / (x - px)
+						// y = (y - py) / (x - px) * x + b
+						// b = y - (y - py) / (x - px) * x
+						// ground_y = a * ground_x + b
+						// ground_x = (ground_y - b) / a =
+						//  = (ground_y - (y - ((y - py) / (x - px) * x))) / ((y - py) / (x - px)) =
+						//  = (ground_y - y + (y - py) / (x - px) * x) * (x - px) / (y - py) =
+						//  = (ground_y - y) * (x - px) / (y - py) + x
+						context.lineTo(((ground_y-y)*(x-px))/(y-py) + x, ground_y);
+						break;
 					}
+					context.lineTo(x, y);
+
 				}
+				context.stroke();
+
+				// hitting the ground, starting the new line with adjusted params
+				
+				// ground_y-y = elevation of the last point before touchdown
+				// var hit_x = x + (ground_y-y) * ctan(-angle_rad);
+				var hit_y = ground_y;
+				var hit_vy = -vy + gravity * time;
+				var hit_rad = Math.atan(hit_vy/vx);
+				var hit_angle = hit_rad * 180.0 / Math.PI;
+				while(hit_angle < 0)
+				{
+					hit_angle += 180;
+				}
+				var bounce_angle = hit_angle;
+				var hit_velocity = Math.sqrt(vx*vx + hit_vy*hit_vy);
+
+				// context.lineTo(x, hit_y);
+
+				// pole height here is 0, because we imitate that the ball starts from the ground level
+				drawPath(context, cw, ch, bounce_angle, hit_velocity, gravity, 0, ground_height, precision, ((ground_y-y)*(x-px))/(y-py) + x);
+				return;
 			}
 		}
 		else // aiming into the abyss!
@@ -285,8 +300,8 @@ function calcTimeOfFlight(velocity, angle, grav_acc, ground_y, start_y)
 			// cos(angle) = x/s = h/tg(angle) * 1/s
 			// s = h/tg(angle) * 1/cos(angle) = h / sin(angle)
 			// v = s * t
-			// t = v / s = v * sin(angle) / h
-			return velocity * Math.sin(angle * Math.PI / 180.0) / elevation;
+			// t = v / s = v * sin(angle) / h = vy / h
+			return vy / elevation;
 		}
 	}
 	else if(grav_acc < 0)
@@ -305,8 +320,25 @@ function calcTimeOfFlight(velocity, angle, grav_acc, ground_y, start_y)
 			else // velocity powerful enough to hit the ground against the gravity
 			{
 				// no descension time
-				var ascension_time = vy / grav_acc;
-				return ascension_time;
+				// var ascension_time = vy / grav_acc;
+				// return ascension_time;
+				// ascension_time is the time to reach the max height, but in this case we hit the ground earlier
+				var t1 = -(-vy - Math.sqrt(vy*vy - 4*(-grav_acc)*(start_y-ground_y))) / (-2.0 * grav_acc);
+				var t2 = -(-vy + Math.sqrt(vy*vy - 4*(-grav_acc)*(start_y-ground_y))) / (-2.0 * grav_acc);
+				var time_delta;
+				if(t2 < 0)
+				{
+					time_delta = t1;
+				}
+				else if(t1 < t2)
+				{
+					time_delta = t1;
+				}
+				else
+				{
+					time_delta = t2;
+				}
+				return time_delta*time_delta;
 			}
 		}
 		else // going into the abyss

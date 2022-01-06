@@ -28,50 +28,98 @@
 
 	<div class="parag ccenter">
 		<table>
-			<tr>
-				<th>Angle</th>
-				<td><span class="range_val" id="angle_val"></span></td>
-				<td><input id="angle_id" type="range" min="0" max="35999" value="3000" onchange="start()" oninput="start()"></td>
-				<td><input id="angle_reset" type="button" value="Reset" onclick="resetAngle()"></td>
-			</tr>
-			<tr>
-				<th>Velocity</th>
-				<td><span class="range_val" id="velocity_val"></span></td>
-				<td><input id="velocity_id" type="range" min="0" max="400" value="70" onchange="start()" oninput="start()"></td>
-				<td><input id="velocity_reset" type="button" value="Reset" onclick="resetVelocity()"></td>
-			</tr>
-			<tr>
-				<th>Ground level</th>
-				<td><span class="range_val" id="ground_level_val"></span></td>
-				<td><input id="ground_level_id" type="range" min="0" max="40000" value="5000" onchange="start()" oninput="start()"></td>
-				<td><input id="ground_level_reset" type="button" value="Reset" onclick="resetGround_level()"></td>
-			</tr>
-			<tr>
-				<th>Pole Height</th>
-				<td><span class="range_val" id="pole_height_val"></span></td>
-				<td><input id="pole_height_id" type="range" min="0" max="40000" value="20000" onchange="start()" oninput="start()"></td>
-				<td><input id="pole_height_reset" type="button" value="Reset" onclick="resetPole_height()"></td>
-			</tr>
-			<tr>
-				<th>Object Radius</th>
-				<td><span class="range_val" id="radius_val"></span></td>
-				<td><input id="radius_id" type="range" min="100" max="2000" value="1000" onchange="start()" oninput="start()"></td>
-				<td><input id="radius_reset" type="button" value="Reset" onclick="resetRadius()"></td>
-			</tr>
-			<tr>
-				<th>Drawing Precision</th>
-				<td><span class="range_val" id="precision_val"></span></td>
-				<td><input id="precision_id" type="range" min="1" max="30" value="30" onchange="start()" oninput="start()"></td>
-				<td><input id="precision_reset" type="button" value="Reset" onclick="resetPrecision()"></td>
-			</tr>
-			<tr>
-				<th>Gravity</th>
-				<td><span class="range_val" id="gravity_val"></span></td>
-				<td><input id="gravity_id" type="range" min="-3000" max="3000" value="981" onchange="start()" oninput="start()"></td>
-				<td><input id="gravity_reset" type="button" value="Reset" onclick="resetGravity()"></td>
-			</tr>
+			<thead>
+				<tr>
+					<td>Parameter</td>
+					<td>Value</td>
+					<td>Unit</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Angle</th>
+					<td><span class="range_val" id="angle_val"></span></td>
+					<td><span class="range_val">°</span></td>
+					<td><input id="angle_id" type="range" min="0" max="35999" value="3000" onchange="start()" oninput="start()"></td>
+					<td><input id="angle_reset" type="button" value="Reset" onclick="resetAngle()"></td>
+				</tr>
+				<tr>
+					<th>Velocity</th>
+					<td><span class="range_val" id="velocity_val"></span></td>
+					<td><span class="range_val">m/s</span></td>
+					<td><input id="velocity_id" type="range" min="0" max="220" value="70" onchange="start()" oninput="start()"></td>
+					<td><input id="velocity_reset" type="button" value="Reset" onclick="resetVelocity()"></td>
+				</tr>
+				<tr>
+					<th>Ground level</th>
+					<td><span class="range_val" id="ground_level_val"></span></td>
+					<td><span class="range_val">m</span></td>
+					<td><input id="ground_level_id" type="range" min="0" max="40000" value="5000" onchange="start()" oninput="start()"></td>
+					<td><input id="ground_level_reset" type="button" value="Reset" onclick="resetGround_level()"></td>
+				</tr>
+				<tr>
+					<th>Pole Height</th>
+					<td><span class="range_val" id="pole_height_val"></span></td>
+					<td><span class="range_val">m</span></td>
+					<td><input id="pole_height_id" type="range" min="0" max="40000" value="20000" onchange="start()" oninput="start()"></td>
+					<td><input id="pole_height_reset" type="button" value="Reset" onclick="resetPole_height()"></td>
+				</tr>
+				<tr>
+					<th>Object Radius</th>
+					<td><span class="range_val" id="radius_val"></span></td>
+					<td><span class="range_val">m</span></td>
+					<td><input id="radius_id" type="range" min="100" max="2000" value="1000" onchange="start()" oninput="start()"></td>
+					<td><input id="radius_reset" type="button" value="Reset" onclick="resetRadius()"></td>
+				</tr>
+				<tr>
+					<th>Drawing Precision</th>
+					<td><span class="range_val" id="precision_val"></span></td>
+					<td><span class="range_val"></span></td>
+					<td><input id="precision_id" type="range" min="1" max="30" value="30" onchange="start()" oninput="start()"></td>
+					<td><input id="precision_reset" type="button" value="Reset" onclick="resetPrecision()"></td>
+				</tr>
+				<tr>
+					<th>Gravity Acc.</th>
+					<td><span class="range_val" id="gravity_val"></span></td>
+					<td><span class="range_val">m/s^2</span></td>
+					<td><input id="gravity_id" type="range" min="-3000" max="3000" value="981" onchange="start()" oninput="start()"></td>
+					<td><input id="gravity_reset" type="button" value="Reset" onclick="resetGravity()"></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
+
+	<div class="parag">
+		Sources:<br>
+		<a href="https://www.w3schools.com" target="_blank">W3Schools</a><br>
+		<a href="https://stackoverflow.com" target="_blank">Stack Overflow</a>
+	</div>
+
+	<fieldset class="about">
+		<legend><span id="legend-name">About</span></legend>
+		<table>
+			<tbody>
+				<tr>
+					<th>owner:</th>
+					<th>Aleksander Kluczka</th>
+				</tr>
+				<tr>
+					<th>taurus:</th>
+					<th>9kluczka</th>
+				</tr>
+				<tr>
+					<th>e-mail:</th>
+					<th><a href="mailto:qlootchka@student.fis.agh.edu.pl">qlootchka@student.fis.agh.edu.pl</a></th>
+				</tr>
+				<tr>
+					<th>source:</th>
+					<th><a href="https://github.com/vis4rd/it_project_1_2021" target="_blank">Github</a></th>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
 
 <script src="animation.js"></script>
 </body>

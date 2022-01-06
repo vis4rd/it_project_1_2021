@@ -62,8 +62,64 @@
 		Similarly, the direction of velocity can be described as:
 		$$\Theta_{v} = tan^{-1}(\frac{v_{y}}{v_{x}})$$
 
-		
+		<h3>Time of flight</h3>
+		The most general case of projectile motion splits the total time of flight on ascension and descension time. Cases like free fall, horizontal motion throw are simplifications to these general formulas. Without elevation formulas are as follows:
+		$$t_{asc} = {v_{0y} \over g}$$
+		$$t_{desc} = t_{asc}$$
+		$$t_{max} = t_{asc} + t_{desc} = {2 \cdot v_{0y} \over g}$$
+
+		Adding elevation does not change ascension time, but makes descension time more difficult to calculate:
+		$$t_{desc} = \frac{\sqrt{v_{0y}^2 + 2 \cdot g \cdot h}}{g}$$
+		$$t_{max} = \frac{v_{0y} + \sqrt{v_{0y}^2 + 2 \cdot g \cdot h}}{g}$$
+
+		<h3>Maximum height of flight</h3>
+		Sometimes getting to know maximum height of trajectory is quite useful, ex. when the projectile might hit the roof of some sorts. The simulation on this site actually uses this information as well! The top reach of the trajectory can be obtained with:
+		$$h_{max} = \frac{h_{0} + v_{0y}^2}{2 \cdot g}$$
+		, where \(h_{0}\) is the initial elevation, also known as \(y_{0}\).
+		<br><br>
+
+		<h3>Range of trajectory</h3>
+		Same as peek height, range of the projectile is also handy when dealing with vertical obstacles. This value depends on ascension and descension same as time of flight, hence the formulas are similar:
+		$$R = v_{0x} \cdot \frac{v_{0y} + \sqrt{v_{0y}^2 + 2 \cdot g \cdot h}}{g}$$
+		It's also worth noting that this is actually a formula for \(x\) position in time \(t\), where \(t\) is a total time of flight (maximum).
+		$$R = v_{0x} \cdot t_{max}$$
 	</div>
+
+	<div class="parag">
+		Sources:<br>
+		<a href="https://courses.lumenlearning.com" target="_blank">Lumen Learning</a><br>
+		<a href="https://en.wikipedia.org/wiki/Projectile_motion" target="_blank">Wikipedia - Projectile motion</a><br>
+	</div>
+
+	<div class="parag">
+		Tools:<br>
+		<a href="https://www.mathjax.org" target="_blank">MathJax</a> under 
+		<a href="https://github.com/mathjax/MathJax/blob/master/LICENSE" target="_blank">Apache License 2.0</a>.<br>
+	</div>
+
+	<fieldset class="about">
+		<legend><span id="legend-name">About</span></legend>
+		<table>
+			<tbody>
+				<tr>
+					<th>owner:</th>
+					<th>Aleksander Kluczka</th>
+				</tr>
+				<tr>
+					<th>taurus:</th>
+					<th>9kluczka</th>
+				</tr>
+				<tr>
+					<th>e-mail:</th>
+					<th><a href="mailto:qlootchka@student.fis.agh.edu.pl">qlootchka@student.fis.agh.edu.pl</a></th>
+				</tr>
+				<tr>
+					<th>source:</th>
+					<th><a href="https://github.com/vis4rd/it_project_1_2021" target="_blank">Github</a></th>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
 
 </body>
 </html>
