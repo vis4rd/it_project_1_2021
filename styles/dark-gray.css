@@ -134,18 +134,35 @@ a:hover
 	font-weight: bold;
 }
 
-table, tr, th
+table, tr, th, td
 {
 	text-align: left;
-	margin: 0;
-	padding: 0;
 	text-decoration: none;
 	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	/*border: 1px solid white;*/
+	/*border-collapse: collapse;*/
+}
+
+table
+{
+	width: 100%;
 }
 
 th
 {
-	width: 100px;
+	width: 30%;
+}
+
+td:nth-last-child(1)
+{
+	width: 60%;
+}
+
+input
+{
+	width: 100%;
 }
 
 canvas

@@ -9,6 +9,7 @@
 	<div class="parag ccenter">
 		<h1>IT Project 1 - Projectile Motions
 	</div>
+
 	<nav class="ccenter">
 		<div class="navbar-entry ccenter">
 			<a href="index.html">About</a>
@@ -20,36 +21,49 @@
 			Simul
 		</div>
 	</nav>
+
 	<div class="parag ccenter">
 		<canvas id="canv" width="1200" height="600"></canvas>
+	</div>
 
-		<span class="label" id="angle_label">angle</span>
-		<input id="angle_id" type="range" min="0" max="359" value="34" onchange="start()" oninput="start()">
-		<span class="range_val" id="angle_val"><br>
-
-		<span class="label" id="velocity_label">velocity</span>
-		<input id="velocity_id" type="range" min="0" max="400" value="70" onchange="start()" oninput="start()">
-		<span class="range_val" id="velocity_val"><br>
-
-		<span class="label" id="ground_level_label">ground_level</span>
-		<input id="ground_level_id" type="range" min="0" max="400" value="50" onchange="start()" oninput="start()">
-		<span class="range_val" id="ground_level_val"><br>
-
-		<span class="label" id="pole_height_label">pole_height</span>
-		<input id="pole_height_id" type="range" min="0" max="400" value="200" onchange="start()" oninput="start()">
-		<span class="range_val" id="pole_height_val"><br>
-
-		<span class="label" id="radius_label">radius</span>
-		<input id="radius_id" type="range" min="1" max="20" value="10" onchange="start()" oninput="start()">
-		<span class="range_val" id="radius_val"><br>
-
-		<span class="label" id="precision_label">precision</span>
-		<input id="precision_id" type="range" min="1" max="300" value="50" onchange="start()" oninput="start()">
-		<span class="range_val" id="precision_val"><br>
-
-		<span class="label" id="gravity_label">gravity</span>
-		<input id="gravity_id" type="range" min="-10" max="10" value="9.81" onchange="start()" oninput="start()">
-		<span class="range_val" id="gravity_val"><br>
+	<div class="parag ccenter">
+		<table>
+			<tr>
+				<th>Angle</th>
+				<td><span class="range_val" id="angle_val"></span></td>
+				<td><input id="angle_id" type="range" min="0" max="359" value="34" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Velocity</th>
+				<td><span class="range_val" id="velocity_val"></span></td>
+				<td><input id="velocity_id" type="range" min="0" max="400" value="70" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Ground level</th>
+				<td><span class="range_val" id="ground_level_val"></span></td>
+				<td><input id="ground_level_id" type="range" min="0" max="400" value="50" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Pole Height</th>
+				<td><span class="range_val" id="pole_height_val"></span></td>
+				<td><input id="pole_height_id" type="range" min="0" max="400" value="200" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Object Radius</th>
+				<td><span class="range_val" id="radius_val"></span></td>
+				<td><input id="radius_id" type="range" min="1" max="20" value="10" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Drawing Precision</th>
+				<td><span class="range_val" id="precision_val"></span></td>
+				<td><input id="precision_id" type="range" min="1" max="50" value="50" onchange="start()" oninput="start()"></td>
+			</tr>
+			<tr>
+				<th>Gravity</th>
+				<td><span class="range_val" id="gravity_val"></span></td>
+				<td><input id="gravity_id" type="range" min="-10" max="10" value="9.81" onchange="start()" oninput="start()"></td>
+			</tr>
+		</table>
 	</div>
 
 <script src="animation.js"></script>

@@ -1,12 +1,5 @@
 window.addEventListener("load", start);
 window.addEventListener("resize", start);
-// document.getElementById("angle_id").addEventListener("change", start);
-// document.getElementById("velocity_id").addEventListener("change", start);
-// document.getElementById("ground_level_id").addEventListener("change", start);
-// document.getElementById("pole_height_id").addEventListener("change", start);
-// document.getElementById("radius_id").addEventListener("change", start);
-// document.getElementById("precision_id").addEventListener("change", start);
-// document.getElementById("gravity_id").addEventListener("change", start);
 
 function start()
 {
@@ -19,15 +12,23 @@ function start()
 	var precision_s = document.getElementById("precision_id");
 	var gravity_s = document.getElementById("gravity_id");
 
-	var angle = angle_s.value;
-	var velocity = velocity_s.value;
-	var ground_level = ground_level_s.value;
+	var angle = parseInt(angle_s.value);
+	var velocity = parseInt(velocity_s.value);
+	var ground_level = parseInt(ground_level_s.value);
 	var pole_width = 10;
-	var pole_height = pole_height_s.value;
+	var pole_height = parseInt(pole_height_s.value);
 	var pole_x = 100;
-	var radius = radius_s.value;
-	var precision = precision_s.value;
-	var gravity = gravity_s.value;
+	var radius = parseInt(radius_s.value);
+	var precision = parseInt(precision_s.value);
+	var gravity = parseInt(gravity_s.value);
+
+	document.getElementById("angle_val").innerHTML = angle;
+	document.getElementById("velocity_val").innerHTML = velocity;
+	document.getElementById("ground_level_val").innerHTML = ground_level;
+	document.getElementById("pole_height_val").innerHTML = pole_height;
+	document.getElementById("radius_val").innerHTML = radius;
+	document.getElementById("precision_val").innerHTML = precision;
+	document.getElementById("gravity_val").innerHTML = gravity;
 
 	draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
 }
@@ -86,7 +87,6 @@ function drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground
 {
 	var ground_y = ch - ground_height;
 	var pole_y = ground_y - pole_height;
-	var angle_rad = angle * Math.PI / 180.0;
 	var y0 = pole_y;
 
 	if(precision == 0)
@@ -101,6 +101,7 @@ function drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground
 	{
 		angle = angle % 360;
 	}
+	var angle_rad = angle * Math.PI / 180.0;
 
 	context.beginPath();
 	context.moveTo(x0, y0);
@@ -230,7 +231,7 @@ function calcTimeOfFlight(velocity, angle, grav_acc, ground_y, start_y)
 			// s = h/tg(angle) * 1/cos(angle) = h / sin(angle)
 			// v = s * t
 			// t = v / s = v * sin(angle) / h
-			return Math.sin(angle * Math.PI / 180.0) / elevation;
+			return velocity * Math.sin(angle * Math.PI / 180.0) / elevation;
 		}
 	}
 	else if(grav_acc < 0)
