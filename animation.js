@@ -1,37 +1,88 @@
 window.addEventListener("load", start);
 window.addEventListener("resize", start);
 
+var angle_s = document.getElementById("angle_id");
+var velocity_s = document.getElementById("velocity_id");
+var ground_level_s = document.getElementById("ground_level_id");
+var pole_height_s = document.getElementById("pole_height_id");
+var radius_s = document.getElementById("radius_id");
+var precision_s = document.getElementById("precision_id");
+var gravity_s = document.getElementById("gravity_id");
+
+var angle_l = document.getElementById("angle_val");
+var velocity_l = document.getElementById("velocity_val");
+var ground_level_l = document.getElementById("ground_level_val");
+var pole_height_l = document.getElementById("pole_height_val");
+var radius_l = document.getElementById("radius_val");
+var precision_l = document.getElementById("precision_val");
+var gravity_l = document.getElementById("gravity_val");
+
 function start()
 {
 	// getting values from all sliders
-	var angle_s = document.getElementById("angle_id");
-	var velocity_s = document.getElementById("velocity_id");
-	var ground_level_s = document.getElementById("ground_level_id");
-	var pole_height_s = document.getElementById("pole_height_id");
-	var radius_s = document.getElementById("radius_id");
-	var precision_s = document.getElementById("precision_id");
-	var gravity_s = document.getElementById("gravity_id");
-
-	var angle = parseInt(angle_s.value);
+	var angle = parseInt(angle_s.value) / 100.0;
 	var velocity = parseInt(velocity_s.value);
-	var ground_level = parseInt(ground_level_s.value);
+	var ground_level = parseInt(ground_level_s.value) / 100.0;
 	var pole_width = 10;
-	var pole_height = parseInt(pole_height_s.value);
+	var pole_height = parseInt(pole_height_s.value) / 100.0;
 	var pole_x = 100;
-	var radius = parseInt(radius_s.value);
+	var radius = parseInt(radius_s.value) / 100.0;
 	var precision = parseInt(precision_s.value);
-	var gravity = parseInt(gravity_s.value);
+	var gravity = parseInt(gravity_s.value) / 100.0;
 
-	document.getElementById("angle_val").innerHTML = angle;
-	document.getElementById("velocity_val").innerHTML = velocity;
-	document.getElementById("ground_level_val").innerHTML = ground_level;
-	document.getElementById("pole_height_val").innerHTML = pole_height;
-	document.getElementById("radius_val").innerHTML = radius;
-	document.getElementById("precision_val").innerHTML = precision;
-	document.getElementById("gravity_val").innerHTML = gravity;
+	angle_l.innerHTML = angle + "°";
+	velocity_l.innerHTML = velocity + " m/s";
+	ground_level_l.innerHTML = ground_level + " m";
+	pole_height_l.innerHTML = pole_height + " m";
+	radius_l.innerHTML = radius + " m";
+	precision_l.innerHTML = precision;
+	gravity_l.innerHTML = gravity + " m/s^2";
 
 	draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
 }
+
+function resetAngle()
+{
+	angle_s.value = "3000";
+	start();
+}
+
+function resetVelocity()
+{
+	velocity_s.value = "70";
+	start();
+}
+
+function resetGround_level()
+{
+	ground_level_s.value = "5000";
+	start();
+}
+
+function resetPole_height()
+{
+	pole_height_s.value = "20000";
+	start();
+}
+
+function resetRadius()
+{
+	radius_s.value = "1000";
+	start();
+}
+
+function resetPrecision()
+{
+	precision_s.value = "30";
+	start();
+}
+
+function resetGravity()
+{
+	gravity_s.value = "981";
+	start();
+}
+
 
 async function draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity)
 {
@@ -158,6 +209,10 @@ function drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground
 						var hit_vy = -vy + gravity * time;
 						var hit_rad = Math.atan(hit_vy/vx);
 						var hit_angle = hit_rad * 180.0 / Math.PI;
+						while(hit_angle < 0)
+						{
+							hit_angle += 180;
+						}
 						var bounce_angle = hit_angle;
 						var hit_velocity = Math.sqrt(vx*vx + hit_vy*hit_vy);
 

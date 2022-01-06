@@ -152,12 +152,17 @@ table
 
 th
 {
-	width: 30%;
+	width: 20%;
+}
+
+td:nth-last-child(2)
+{
+	width: 60%;
 }
 
 td:nth-last-child(1)
 {
-	width: 60%;
+	width: 5%;
 }
 
 input
