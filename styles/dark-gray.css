@@ -203,6 +203,13 @@ canvas
 input[type="button"]
 {
 	margin-left: 10px;
+	width: 100%;
+}
+
+td[class="ccenter"] input[type="button"]
+{
+	width: 60%;
+	margin: 0;
 }
 
 input[type="range"]

@@ -17,6 +17,8 @@ var radius_l = document.getElementById("radius_val");
 var precision_l = document.getElementById("precision_val");
 var gravity_l = document.getElementById("gravity_val");
 
+var terminateSimulation = false;
+
 function start()
 {
 	// getting values from all sliders
@@ -38,7 +40,37 @@ function start()
 	precision_l.innerHTML = precision;
 	gravity_l.innerHTML = gravity;
 
+	terminateSimulation = true;
 	draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
+}
+
+async function startSimulation()
+{
+	// getting values from all sliders
+	var angle = parseInt(angle_s.value) / 100.0;
+	var velocity = parseInt(velocity_s.value);
+	var ground_level = parseInt(ground_level_s.value) / 100.0;
+	var pole_width = 10;
+	var pole_height = parseInt(pole_height_s.value) / 100.0;
+	var pole_x = 100;
+	var radius = parseInt(radius_s.value) / 100.0;
+	var precision = parseInt(precision_s.value);
+	var gravity = parseInt(gravity_s.value) / 100.0;
+
+	angle_l.innerHTML = angle;
+	velocity_l.innerHTML = velocity;
+	ground_level_l.innerHTML = ground_level;
+	pole_height_l.innerHTML = pole_height;
+	radius_l.innerHTML = radius;
+	precision_l.innerHTML = precision;
+	gravity_l.innerHTML = gravity;
+
+	// set the termination to true for long enough so that currently running simulation gets that
+	terminateSimulation = true;
+	await new Promise(r => setTimeout(r, 20));
+	terminateSimulation = false;
+
+	drawSimulate(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
 }
 
 function resetAngle()
@@ -83,7 +115,7 @@ function resetGravity()
 	start();
 }
 
-async function draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity)
+function draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity)
 {
 	var canvas = document.getElementById("canv");
 	var cw = canvas.width;
@@ -103,6 +135,82 @@ async function draw(angle, velocity, ground_level, pole_width, pole_height, pole
 	context.fillStyle = "#E0E0E0";
 	drawObject(context, cw, ch, radius, pole_x + pole_width/2.0, ch-ground_level-pole_height);
 	context.fillStyle = "#707070";
+}
+
+async function drawSimulate(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity)
+{
+	var canvas = document.getElementById("canv");
+	var cw = canvas.width;
+	var ch = canvas.height;
+	var context = canvas.getContext("2d");
+
+	context.strokeStyle = "#A5E6E6";
+	context.lineWidth = 3;
+
+	var ground_y = ch - ground_level;
+	var pole_y = ground_y - pole_height;
+	var y0 = pole_y;
+	var x0 = pole_x + pole_width/2.0;
+
+	if(precision == 0)
+	{
+		return;
+	}
+	while(angle < 0) // in js modulo on negative numbers does not work xD
+	{
+		angle += 360;
+	}
+	if(angle >= 360)
+	{
+		angle = angle % 360;
+	}
+	var angle_rad = angle * Math.PI / 180.0;
+
+	context.moveTo(x0, y0);
+
+	// calculate starting velocity vector from angle and velocity
+	var vx = velocity * Math.cos(angle_rad);
+	var vy = velocity * Math.sin(angle_rad);
+
+	// flight time is always positive (hopefully) and sometimes infinite
+	var total_time = calcTimeOfFlight(velocity, angle, gravity, ground_y, pole_y);
+	if(total_time == Infinity)
+	{
+		total_time = 1000000;
+	}
+	if(velocity == 0) // no movement
+	{
+		return;
+	}
+
+	terminateSimulation = false;
+	for(var t = 0; t < total_time; t += 0.1)
+	{
+		if(terminateSimulation) // stop the current simulation if another one has been started
+		{
+			return;
+		}
+		var ct = t / total_time;
+		var x = x0 + vx*t;
+		var y = y0 - vy*t + 0.5*gravity*t*t;
+
+		context.clearRect(0, 0, cw, ch);
+		context.save();
+		context.fillStyle = "#707070";
+
+		drawGround(context, cw, ch, ground_level);
+		drawPole(context, cw, ch, pole_width, pole_height, pole_x, ch-ground_level-pole_height);
+
+		context.fillStyle = "#E0E0E0";
+		drawObject(context, cw, ch, radius, x, y);
+
+		if((y > ground_y) || (x > (cw + 2*radius)) || (y < (0)) || (x < (0)))
+		{
+			break;
+		}
+		await new Promise(r => setTimeout(r, 10));
+	}
+	draw(angle, velocity, ground_level, pole_width, pole_height, pole_x, radius, precision, gravity);
 }
 
 function drawGround(context, cw, ch, height)
@@ -168,7 +276,7 @@ function drawPath(context, cw, ch, angle, velocity, gravity, pole_height, ground
 		}
 		if(angle <= 180) // aiming into the abyss
 		{
-			context.lineTo((x0 + vx * 1000), (y0 - vy * 1000));
+			context.lineTo((x0 + vx * 10000), (y0 - vy * 10000));
 		}
 		else // aiming to the ground, straight line diagonal to the horizontal ground level
 		{
